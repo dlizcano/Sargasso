@@ -1,1 +1,1 @@
-Sitemap: https://dlizcano.github.io/spatialdata_lite/sitemap.xml
+Sitemap: https://dlizcano.github.io/Sargasso/sitemap.xml
