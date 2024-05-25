@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "Sargasso.html",
+    "href": "Sargasso.html",
+    "title": "Sargasso arribazon",
+    "section": "",
+    "text": "Which is the relationship distance to coast line and DO?"
+  },
+  {
+    "objectID": "Sargasso.html#question",
+    "href": "Sargasso.html#question",
+    "title": "Sargasso arribazon",
+    "section": "",
+    "text": "Which is the relationship distance to coast line and DO?"
+  },
+  {
+    "objectID": "Sargasso.html#set-up-analysis",
+    "href": "Sargasso.html#set-up-analysis",
+    "title": "Sargasso arribazon",
+    "section": "Set up analysis",
+    "text": "Set up analysis\nLoad libraries and set some options.\n\n\nCode\nlibrary(readxl)\nlibrary(gt)\nlibrary(lubridate)\nlibrary(stringr)\nlibrary(readxl)\nlibrary(sf)\n# library(MuMIn) # multimodel inference\nlibrary(visreg) # see trend\nlibrary(MASS) # stepAIC\n# library(terra)\nlibrary(lme4) # mix model\nlibrary(sjPlot)\nlibrary(see)\nlibrary(performance)\nlibrary(mapview)\nlibrary(corrplot)\nlibrary(DT)\nlibrary(measurements) # transform DMS to lat lon\nlibrary(ggeffects)\n\nlibrary(tidyverse)\n\n\n\noptions(scipen=99999)\noptions(max.print=99999)\noptions(stringsAsFactors=F)"
+  },
+  {
+    "objectID": "Sargasso.html#load-and-map-the-data",
+    "href": "Sargasso.html#load-and-map-the-data",
+    "title": "Sargasso arribazon",
+    "section": "Load and Map the data",
+    "text": "Load and Map the data\n\n\nCode\nsargasso &lt;- read_excel(\"C:/CodigoR/Nancy2/data/parametros_fisicoquimicos2023.xlsx\", \n    sheet = \"alta_baja\")\n\n\nsargasso$lat &lt;- as.numeric(conv_unit(sargasso$Lattitude, from = \"deg_min_sec\", to = \"dec_deg\"))\nsargasso$lon &lt;- conv_unit(sargasso$Longitude , from = \"deg_min_sec\", to = \"dec_deg\") \nsargasso$lon &lt;- as.numeric(sargasso$lon)*(-1)\n\n# convierte covs a puntos terra\n# puntos &lt;- vect(sargasso, geom=c(\"lon\", \"lat\"), crs=\"EPSG:4326\")\n# convierte a sf\nsargasso_sf &lt;- sf::st_as_sf(sargasso, \n                            coords = c(\"lon\", \"lat\"),\n                            crs=\"EPSG:4326\")\n\nmapview(sargasso_sf, zcol=\"DO_mgL\")"
+  },
+  {
+    "objectID": "Sargasso.html#relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality",
+    "href": "Sargasso.html#relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality",
+    "title": "Sargasso arribazon",
+    "section": "Relation DO[mgL] and distance to coastline, pluma, temporada, and locality",
+    "text": "Relation DO[mgL] and distance to coastline, pluma, temporada, and locality\n\nggplot graph (Loess method)\n\n\nCode\n# Add the regression line Loess method\nggplot(sargasso, aes(x=Distance_coast, y=DO_mgL, color=Pluma)) + \n  geom_point()+\n  geom_smooth() + # method=lm\n  facet_grid(Temporada ~ Locality, scales = \"free\")\n\n\n\n\n\n\n\n\n\nCode\n\n# # Marginal density plot of x (top panel)\n# xdensity &lt;- ggplot(sargasso, aes(Distance_coast, fill=Pluma)) + \n#   geom_density(alpha=.5) + \n#   scale_fill_manual(values = c('#999999','#E69F00')) + # + \n#   # theme(legend.position = \"none\")\n#    facet_grid(Temporada ~ Locality, scales = \"free\")\n# xdensity\n\n\n\n\nRegresion models\n\nA simple model\n\\[\nDO_mgL \\sim DistanceCoast + Pluma + Temporada\n\\]\n\n\nCode\nlm1 &lt;- lm(DO_mgL ~ Distance_coast + Pluma + Temporada, data = sargasso)\n\n\ndat &lt;- predict_response(lm1, terms = c(\"Distance_coast\", \"Pluma\", \"Temporada\"))\nplot(dat, facets = TRUE)\n\n\n\n\n\n\n\n\n\nCode\n\nout1 &lt;- check_model(lm1)\nplot(out1)\n\n\n\n\n\n\n\n\n\nCode\n\nsummary(lm1)\n#&gt; \n#&gt; Call:\n#&gt; lm(formula = DO_mgL ~ Distance_coast + Pluma + Temporada, data = sargasso)\n#&gt; \n#&gt; Residuals:\n#&gt;     Min      1Q  Median      3Q     Max \n#&gt; -60.159  -3.050  -0.030   3.132  54.885 \n#&gt; \n#&gt; Coefficients:\n#&gt;                                      Estimate Std. Error t value Pr(&gt;|t|)    \n#&gt; (Intercept)                         60.082049   1.683701  35.685  &lt; 2e-16 ***\n#&gt; Distance_coast                       0.003967   0.002851   1.391    0.165    \n#&gt; Plumasi                             -7.500396   1.286414  -5.830 9.15e-09 ***\n#&gt; TemporadaBaja arribazón de sargazo -50.921575   1.757801 -28.969  &lt; 2e-16 ***\n#&gt; ---\n#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n#&gt; \n#&gt; Residual standard error: 13.67 on 584 degrees of freedom\n#&gt; Multiple R-squared:  0.6211, Adjusted R-squared:  0.6192 \n#&gt; F-statistic: 319.2 on 3 and 584 DF,  p-value: &lt; 2.2e-16\ntab_model(summary(lm1))\n\n\n\n\n\n\n\n\n\n\n\n\n \nDO_mgL\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n60.08\n56.78 – 63.39\n&lt;0.001\n\n\nDistance coast\n0.00\n-0.00 – 0.01\n0.165\n\n\nPluma [si]\n-7.50\n-10.03 – -4.97\n&lt;0.001\n\n\nTemporada [Baja arribazón\nde sargazo]\n-50.92\n-54.37 – -47.47\n&lt;0.001\n\n\nObservations\n588\n\n\nR2 / R2 adjusted\n0.621 / 0.619\n\n\n\n\n\n\n\n\nCode\n#visreg(glm2, xvar = c(\"Distance_coast\"), \n#       yvar=\"DO_mgL\",\n#       by=\"Pluma\")\n\n\n\n\nA model with 2 interaction between distance and temporada\n\\[\nDO_mgL \\sim DistanceCoast * Temporada + Pluma\n\\]\n\n\nCode\nlm2 &lt;- lm(formula = DO_mgL ~ Distance_coast * Temporada + Pluma ,   data = sargasso)\n\ndat2 &lt;- predict_response(lm2, terms = c(\"Distance_coast\", \"Pluma\", \"Temporada\"))\nplot(dat2, facets = TRUE)\n\n\n\n\n\n\n\n\n\nCode\n\nout2 &lt;- check_model(lm2)\nplot(out2)\n\n\n\n\n\n\n\n\n\nCode\n\ntab_model(summary(lm2))\n\n\n\n\n\n\n\n\n\n\n\n\n \nDO_mgL\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n65.32\n60.36 – 70.28\n&lt;0.001\n\n\nDistance coast\n-0.61\n-1.04 – -0.17\n0.006\n\n\nTemporada [Baja arribazón\nde sargazo]\n-56.20\n-61.28 – -51.12\n&lt;0.001\n\n\nPluma [si]\n-7.36\n-9.87 – -4.84\n&lt;0.001\n\n\nDistance coast ×\nTemporada [Baja arribazón\nde sargazo]\n0.61\n0.18 – 1.05\n0.006\n\n\nObservations\n588\n\n\nR2 / R2 adjusted\n0.626 / 0.623\n\n\n\n\n\n\n\n\ncomplex to interpret\n\n\nThree-Way-Interaction\n\\[\nDO_mgL \\sim DistanceCoast * Temporada * Pluma\n\\]\n\n\nCode\nlm3 &lt;- lm(formula = DO_mgL ~ Distance_coast * Temporada * Pluma ,   data = sargasso)\n\nplot_model(lm3, type = \"int\")\n#&gt; [[1]]\n\n\n\n\n\n\n\n\n#&gt; \n#&gt; [[2]]\n\n\n\n\n\n\n\n#&gt; \n#&gt; [[3]]\n\n\n\n\n\n\n\n#&gt; \n#&gt; [[4]]\n\n\n\n\n\n\n\n\nCode\n\nout3 &lt;- check_model(lm3)\nplot(out3)\n\n\n\n\n\n\n\n\n\nCode\n\ntab_model(summary(lm3))\n\n\n\n\n\n\n\n\n\n\n\n\n \nDO_mgL\n\n\nPredictors\nEstimates\nCI\np\n\n\n(Intercept)\n81.86\n74.51 – 89.20\n&lt;0.001\n\n\nDistance coast\n-0.29\n-1.05 – 0.46\n0.449\n\n\nTemporada [Baja arribazón\nde sargazo]\n-73.54\n-81.07 – -66.02\n&lt;0.001\n\n\nPluma [si]\n-34.82\n-43.89 – -25.74\n&lt;0.001\n\n\nDistance coast ×\nTemporada [Baja arribazón\nde sargazo]\n0.29\n-0.47 – 1.04\n0.454\n\n\nDistance coast × Pluma\n[si]\n-0.13\n-1.02 – 0.76\n0.779\n\n\nTemporada [Baja arribazón\nde sargazo] × Pluma [si]\n32.41\n22.74 – 42.08\n&lt;0.001\n\n\n(Distance coast ×\nTemporada [Baja arribazón\nde sargazo]) × Pluma [si]\n0.13\n-0.76 – 1.02\n0.771\n\n\nObservations\n588\n\n\nR2 / R2 adjusted\n0.692 / 0.688"
+  },
+  {
+    "objectID": "Sargasso.html#información-de-la-sesión-en-r.",
+    "href": "Sargasso.html#información-de-la-sesión-en-r.",
+    "title": "Sargasso arribazon",
+    "section": "Información de la sesión en R.",
+    "text": "Información de la sesión en R.\n\n\nCode\nsessionInfo()\n#&gt; R version 4.3.2 (2023-10-31 ucrt)\n#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)\n#&gt; Running under: Windows 10 x64 (build 19042)\n#&gt; \n#&gt; Matrix products: default\n#&gt; \n#&gt; \n#&gt; locale:\n#&gt; [1] LC_COLLATE=Spanish_Colombia.utf8  LC_CTYPE=Spanish_Colombia.utf8   \n#&gt; [3] LC_MONETARY=Spanish_Colombia.utf8 LC_NUMERIC=C                     \n#&gt; [5] LC_TIME=Spanish_Colombia.utf8    \n#&gt; \n#&gt; time zone: America/Bogota\n#&gt; tzcode source: internal\n#&gt; \n#&gt; attached base packages:\n#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     \n#&gt; \n#&gt; other attached packages:\n#&gt;  [1] forcats_1.0.0        dplyr_1.1.4          purrr_1.0.2         \n#&gt;  [4] readr_2.1.5          tidyr_1.3.1          tibble_3.2.1        \n#&gt;  [7] ggplot2_3.5.1        tidyverse_2.0.0      ggeffects_1.6.0     \n#&gt; [10] measurements_1.5.1   DT_0.32              corrplot_0.92       \n#&gt; [13] mapview_2.11.2       performance_0.11.0.9 see_0.8.4.1         \n#&gt; [16] sjPlot_2.8.16        lme4_1.1-35.3        Matrix_1.6-1.1      \n#&gt; [19] MASS_7.3-60          visreg_2.7.0         sf_1.0-15           \n#&gt; [22] stringr_1.5.1        lubridate_1.9.3      gt_0.10.1           \n#&gt; [25] readxl_1.4.3        \n#&gt; \n#&gt; loaded via a namespace (and not attached):\n#&gt;   [1] RColorBrewer_1.1-3      rstudioapi_0.16.0       jsonlite_1.8.8         \n#&gt;   [4] datawizard_0.10.0.4     magrittr_2.0.3          TH.data_1.1-2          \n#&gt;   [7] estimability_1.5        farver_2.1.1            nloptr_2.0.3           \n#&gt;  [10] rmarkdown_2.27          vctrs_0.6.5             minqa_1.2.6            \n#&gt;  [13] effectsize_0.8.8        base64enc_0.1-3         terra_1.7-71           \n#&gt;  [16] htmltools_0.5.7         haven_2.5.4             raster_3.6-26          \n#&gt;  [19] cellranger_1.1.0        sjmisc_2.8.10           pracma_2.4.4           \n#&gt;  [22] KernSmooth_2.23-22      htmlwidgets_1.6.4       sandwich_3.1-0         \n#&gt;  [25] zoo_1.8-12              emmeans_1.10.1          uuid_1.2-0             \n#&gt;  [28] lifecycle_1.0.4         iterators_1.0.14        pkgconfig_2.0.3        \n#&gt;  [31] sjlabelled_1.2.0        R6_2.5.1                fastmap_1.1.1          \n#&gt;  [34] digest_0.6.34           colorspace_2.1-0        patchwork_1.2.0        \n#&gt;  [37] leafem_0.2.3            crosstalk_1.2.1         labeling_0.4.3         \n#&gt;  [40] fansi_1.0.6             timechange_0.3.0        mgcv_1.9-0             \n#&gt;  [43] compiler_4.3.2          proxy_0.4-27            withr_3.0.0            \n#&gt;  [46] doParallel_1.0.17       brew_1.0-10             DBI_1.2.2              \n#&gt;  [49] sjstats_0.19.0          leaflet_2.2.1           classInt_0.4-10        \n#&gt;  [52] caTools_1.18.2          tools_4.3.2             units_0.8-5            \n#&gt;  [55] qqconf_1.3.2            glue_1.7.0              satellite_1.0.5        \n#&gt;  [58] nlme_3.1-163            grid_4.3.2              generics_0.1.3         \n#&gt;  [61] qqplotr_0.0.6           gtable_0.3.4            leaflet.providers_2.0.0\n#&gt;  [64] tzdb_0.4.0              class_7.3-22            hms_1.1.3              \n#&gt;  [67] sp_2.1-3                xml2_1.3.6              utf8_1.2.4             \n#&gt;  [70] ggrepel_0.9.5           foreach_1.5.2           pillar_1.9.0           \n#&gt;  [73] robustbase_0.99-2       splines_4.3.2           lattice_0.22-5         \n#&gt;  [76] survival_3.5-7          tidyselect_1.2.1        knitr_1.46             \n#&gt;  [79] svglite_2.1.3           stats4_4.3.2            xfun_0.44              \n#&gt;  [82] leafpop_0.1.0           DEoptimR_1.1-3          stringi_1.8.3          \n#&gt;  [85] yaml_2.3.8              boot_1.3-28.1           evaluate_0.23          \n#&gt;  [88] codetools_0.2-19        twosamples_2.0.1        cli_3.6.2              \n#&gt;  [91] xtable_1.8-4            parameters_0.21.7.1     systemfonts_1.0.5      \n#&gt;  [94] pbmcapply_1.5.1         munsell_0.5.0           jquerylib_0.1.4        \n#&gt;  [97] Rcpp_1.0.12             coda_0.19-4.1           png_0.1-8              \n#&gt; [100] parallel_4.3.2          ellipsis_0.3.2          bayestestR_0.13.2.1    \n#&gt; [103] opdisDownsampling_1.0.1 bitops_1.0-7            mvtnorm_1.2-4          \n#&gt; [106] scales_1.3.0            e1071_1.7-14            insight_0.19.11.2      \n#&gt; [109] rlang_1.1.3             multcomp_1.4-25"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sargasso in Chetumal, Mexico",
+    "section": "",
+    "text": "Go to Sargasso tab."
+  },
+  {
+    "objectID": "index.html#structur",
+    "href": "index.html#structur",
+    "title": "Sargasso in Chetumal, Mexico",
+    "section": "",
+    "text": "Go to Sargasso tab."
+  }
+]
