@@ -1,0 +1,117 @@
+---
+title: "MixSiar"
+author: "Nancy Cabanillas, Diego J. Lizcano, et al."
+date: "3/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r packages}
+library(MixSIAR)
+
+```
+
+## Load data
+
+
+```{r data}
+mix <- load_mix_data(file="D:/BoxFiles/Box Sync/CodigoR/Nancy2/data/consumersXY17.csv",
+                     iso_names=c("d13C","d15N"),
+                     factors="Group",
+                     fac_random=FALSE,
+                     fac_nested=FALSE,
+                     cont_effects=NULL)
+#cargar datos de las fuentes
+source <- load_source_data(filename="D:/BoxFiles/Box Sync/CodigoR/Nancy2/data/sourcesXY17.csv",
+                           source_factors=NULL,
+                           conc_dep=FALSE,
+                           data_type="means", mix)
+#cargar el archivo de discriminaci?n
+discr <- load_discr_data(filename="D:/BoxFiles/Box Sync/CodigoR/Nancy2/data/discriminationXY17.csv", mix)
+
+```
+
+
+## plot
+
+```{r}
+#Crear la gr?fica 
+plot_data(filename="D:/BoxFiles/Box Sync/CodigoR/Nancy2/plot/isospace_plot", plot_save_pdf=F,
+          plot_save_png=F, mix, source, discr,
+          return_obj=T)
+
+#calcular ?rea
+calc_area(source = source, mix = mix, discr = discr)
+
+#plot prior (gr?fico de barras de proporciones, en rojo que es propio y en gris generalista)
+
+#par(mar = rep(0.1, 0.1))
+# image(as.matrix(source$S_MU),col=source$n_array,axes=T)
+plot_prior2( 
+  alpha.prior = 1,
+  source,
+  plot_save_pdf = F,
+  plot_save_png = TRUE,
+  filename = "D:/BoxFiles/Box Sync/CodigoR/Nancy2/plot/prior_plotXY17.pdf")
+
+
+```
+
+## Crear el modelo
+
+```{r}
+write_JAGS_model(
+  filename = "MixSIAR_model_XY17.txt",
+  resid_err = TRUE,
+  process_err = TRUE,
+  mix,
+  source)
+
+#correr el modelo
+jags.1 <- run_model(
+  "test",
+  mix,
+  source,
+  discr,
+  "MixSIAR_model_XY17.txt",
+  alpha.prior = 1,
+  resid_err = NULL,
+  process_err = NULL)
+
+#output del modelo
+output_JAGS(
+  jags.1,
+  mix,
+  source,
+  output_options = list(summary_save = TRUE, summary_name = "summary_statistics",
+                        sup_post = FALSE, plot_post_save_pdf = TRUE, plot_post_name = "posterior_density",
+                        sup_pairs = FALSE, plot_pairs_save_pdf = TRUE, plot_pairs_name = "pairs_plot", sup_xy
+                        = TRUE, plot_xy_save_pdf = FALSE, plot_xy_name = "xy_plot", gelman = TRUE, heidel =
+                          FALSE, geweke = TRUE, diag_save = TRUE, diag_name = "diagnostics", indiv_effect =
+                          FALSE, plot_post_save_png = FALSE, plot_pairs_save_png = FALSE, plot_xy_save_png =
+                          FALSE, diag_save_ggmcmc = TRUE)
+)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

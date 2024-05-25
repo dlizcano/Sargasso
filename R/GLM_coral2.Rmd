@@ -1,0 +1,509 @@
+---
+title: "Corales reclutamiento"
+author: "Diego L. Lizcano"
+date: "26 de enero de 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Coral and recruitment
+
+The main questions to be addressed in this investigation are: 
+
+1. Are there any coral recruits coming through the channels to colonize the bay?.
+    
+2. How high is the abundance level of coral recruitment in the reef lagoon, the channels and the bay?.
+
+3. Are the natural and the artificial channel act differently for coral recruitment?.  
+
+4. Further we want to know the differences in salinity and temperature in the channels, the
+lagoon compared to the bay as well as water exchange and near surface water
+currents close to the channels to get an idea of the local water movement in the area.
+
+
+# Study area
+
+“SE Chetumal Bay” (BAY) is surrounded by cays and channels connecting it to the rest of the bay.
+
+The artificial channel (AC), called “Zaragoza Channel” is a man made channel built in the 19 th century, 
+closed because of sedimentation and has been reopened from 1996-2000 by the Mexican army.
+
+The natural channel (NC), called “Bacalar Chico” is a historical old, meandered, mangrove channel.
+
+The reef lagoon (RL) which influences the Chetumal Bay through the channels is part of the national park “Xcalak Reefs”.
+
+# Answering the questions
+
+The main questions to be addressed in this investigation are: 
+
+1. Are there any coral recruits coming through the channels to colonize the bay?.
+    
+    Very hard to answer taking in to account that you are not tracking coral or larvae movement through the channels. We can answer how many recuits are in the bay by genus in a boxplot
+
+2. How high is the abundance level of coral recruitment in the reef lagoon, the channels and the bay?
+
+  We can see the abundance of corals by ploting how many recuits are in the bay by genus in a boxplot (same graph as previous question) 
+
+3. Are the natural and the artificial channel act differently for coral recruitment? 
+
+  We can see if there are statistically significant diferences between Localityes by an ANOVA (1) and also between sites by ANOVA (2). 
+
+4. Further we want to know the differences in salinity and temperature in the channels, the lagoon compared to the bay as well as water exchange and near surface water currents close to the channels to get an idea of the local water movement in the area.
+
+  We need the salinity data!
+
+
+## Load the data set and put together tables
+
+```{r read, cache=TRUE, echo=TRUE, message=FALSE}
+library(lme4)
+library(nlme)
+library(arm)
+library(sjPlot)
+library(dplyr)
+library(ggplot2)
+
+# read data set
+library(readr)
+# Qcual cambio a 1
+corales <- read.csv("C:/Users/diego.lizcano/Box Sync/CodigoR/Nancy2/data/corales3.csv", 
+                    sep = ";", header = T)
+
+corales$all <- apply(corales[,35:41], 1, sum) # suma de todos los corales
+
+# tabla de Acropora sp.	Agaricia sp.	Faviidae	Porites spp.	Siderastrea sp Unknown_Coral
+corales_algunos1 <- cbind(corales$Acropora.sp. , corales$Agaricia.sp. ,
+                          corales$Faviidae , corales$Porites.spp. , 
+                          corales$Siderastrea.sp. , corales$Unknown.Coral..too.small.) 
+
+# here in the same comlumn
+corales_algunos2 <- as.data.frame(rbind(cbind(corales$Acropora.sp. ,   "Acropora"),
+                          cbind(corales$Agaricia.sp. ,   "Agaricia"),
+                          cbind(corales$Faviidae ,       "Faviidae"),
+                          cbind(corales$Porites.spp. ,   "Porites" ),
+                          cbind(corales$Siderastrea.sp. ,"Siderastrea"), 
+                          cbind(corales$Unknown.Coral..too.small., "Unknown_Coral") ))
+
+corales_algunos2$V1 <- as.numeric(levels(corales_algunos2$V1)[corales_algunos2$V1]) # convert from factor to numeric
+
+corales_algunos3 <- cbind(corales_algunos2, c(as.character(rep(corales$Locality, 6) )))                       
+colnames(corales_algunos3) <- c("recruitment", "genus", "Locality")
+corales_algunos3 <-  as.data.frame(corales_algunos3) # make data frame
+
+
+# suma de las abundancias de los corales seleccionados
+corales$corales_algunos_sum <- apply(corales_algunos1, 1, sum) 
+
+
+```
+
+# BoxPlot
+
+
+
+```{r, boxplot1, echo=TRUE, cache=TRUE, fig.cap="Sumarazing how many recuits are in the bay first agregating all corals as a sum."}
+tabla2 <- as.data.frame(cbind(as.character(corales[,1]), as.numeric( corales[,43])))
+colnames(tabla2) <- c("Locality", "abund")
+tabla2$abund <- as.numeric(tabla2$abund)
+tabla3 <- table(tabla2) # abundancia de selected corales and locality
+tabla4 <- apply(tabla3, 1, mean) # suma selected corales by locality
+# barplot(tabla4)
+
+ggplot(tabla2, aes(x = Locality, y = abund)) +
+  geom_boxplot(fill = "grey80", colour = "blue") +
+  scale_x_discrete() + xlab("Locality") +
+  ylab("Recruitment (sum) of several coral genus")
+
+
+
+
+
+```
+
+
+```{r, boxplot2, echo=TRUE, fig.cap="The second boxplot shows recruitment by locality wraped by genus"}
+
+ggplot(corales_algunos3, aes(x = Locality , y = recruitment)) +
+  geom_boxplot(fill = "grey80") + facet_wrap(~genus) +
+  scale_x_discrete() + xlab("Locality") +
+  ylab("Recruitment of selected corals")
+```
+
+
+
+## Testing diferences in ANOVA
+
+as a piosson procces determined by  site = locality name (factor) 
+
+```{r glm1, echo=TRUE, cache=TRUE, fig.cap="The graph shows the multiple comparison (Tukey test) between Localities. The pairs RL-AC and  NC-BAY are not differents.", fig.height=9}
+
+
+glm4 <- glm (corales_algunos_sum ~  Locality, family = poisson(), data = corales)
+
+# summary(glm1)
+# summary(glm2)
+# summary(glm3)
+anova(glm4, test = "Chisq")
+anova1 <- aov(glm4)
+(posthoc1 <- TukeyHSD(x=anova1, "Locality", conf.level=0.95))
+plot(posthoc1)
+
+
+```
+
+Las localidades BAY y NC son significativamente diferentes a AC y RL. Y como se aprecia en el boxplot (Fig. 1) tienen menor reclutamiento de coral.
+
+```{r, anova2, echo=TRUE, cache=TRUE, fig.cap="The graph shows the multiple comparison (Tukey test) between sites The pairs Porites-Acropora, Porites-Agaricia, Porites-Faviidae, Siderastrea-Porites and Unknown_Coral-Porites are different.", fig.height=9}
+glm5 <- glm (recruitment ~  Locality + genus,  data = corales_algunos3)
+anova(glm5, test = "Chisq")
+anova2 <- aov(glm5)
+(posthoc2 <- TukeyHSD(x=anova2, "genus", conf.level=0.95))
+plot(posthoc2)
+
+```
+
+
+In most of the comparisons were Porites is included produces a statistically significant diference. As we can see in the Boxplot (Fig. 2) Porites recruitment is bigger than other genus. 
+
+
+# Stepwise regresion precedure for all algae
+
+```{r stepwise}
+library(bootStepAIC)
+library(lattice)
+library(fields)
+glm6 <- glm (corales_algunos_sum ~  Porifera + Branching.coralline.algae + Branching.erect.algae + 
+                                    Coarsely.branched.algae + Filamentous.algae + 
+                                    Jointed.calcareus.algae + Crustose.algae + 
+                                    Sheet.like.algae + Thick.leathery.algae +
+                                    turf.algae + unbranched.erect.algae , family = poisson(), data = corales)
+summary(glm6)
+fit.boot <- boot.stepAIC(glm6, data = corales, B = 100) # That's it !
+fit.boot
+
+```
+
+Las algas de tipo: 
+  - Branching.erect
+  - Coarsely.branched
+  - turf
+  - Branching.coralline
+  - Jointed.calcareus
+  
+No son buenas predictoras de la abundancia de los corales!
+
+
+# Predicting recruitmentof all corals as a function ofporifera  and  algae (several). No mater stepwise procedure
+
+```{r pred1}
+
+
+# algae richness
+corales$algae_richnes <- apply(cbind(corales$Branching.coralline.algae , corales$Branching.erect.algae , 
+                                    corales$Coarsely.branched.algae , corales$Filamentous.algae , 
+                                    corales$Jointed.calcareus.algae , corales$Crustose.algae , 
+                                    corales$Sheet.like.algae + corales$Thick.leathery.algae ,
+                                    corales$turf.algae , corales$unbranched.erect.algae),1,sum)
+
+
+glm7 <- glm(corales_algunos_sum ~  Porifera * algae_richnes, family = poisson(), data = corales)
+glm8 <- glm(corales_algunos_sum ~  Porifera * algae_richnes + I(algae_richnes)^2, family = poisson(), data = corales)
+
+
+
+summary(glm7)
+
+newdato <- as.data.frame(cbind(Porifera=rep(1:10, each = 10), algae_richnes=rep(1:10, 10)) )
+predichos <- predict(glm7, newdata = newdato, type = "response")
+
+
+# plot predictions but not as surface
+sjp.glm(glm7, type = "pred", vars = c("Porifera", "algae_richnes"), show.ci = TRUE)
+sjp.glm(glm7, type = "pred", vars = c("Porifera", "algae_richnes"), show.ci = TRUE, facet.grid = FALSE)
+
+require(geoR)
+data(elevation)
+
+
+
+grid = expand.grid(list(Porifera = seq(0, 9, 1), algae_richnes = seq(0, 9, 1)))
+
+z = predict(glm7, newdata = grid)
+grid$Height = as.numeric(z)
+
+levelplot(Height ~ Porifera*algae_richnes, data = grid,
+  xlab = "Porifera abundance", ylab = "Algae richness",
+  main = "Coral recruitment",
+  col.regions = terrain.colors(100)
+)
+
+
+########################################
+
+
+#### with image for predictors with interaction terms#####
+psi.matrix <- array(NA, dim = c(100, 100)) # Prediction matrix, for every
+
+# combination of values of two interacting predictors
+pr.mat<-data.frame(Porifera=seq(0, 
+                                7, 
+                                length.out=100),
+                   algae_richnes=seq(0, 7, 
+                            length.out=100))
+
+for(i in 1:100){
+  for(j in 1:100){
+       psi.matrix[i, j]<-predict(glm7, newdata=data.frame(
+          Porifera=pr.mat$Porifera[i],
+         # mean=pr.mat$mean[j]), 
+        #  range=pr.mat$range[j]), 
+          algae_richnes=pr.mat$algae_richnes[j]),
+          type="response")
+  }
+}
+
+mapPalette <- colorRampPalette(c("grey", "yellow", "orange", "red"))
+
+
+#plot.par<-par()  #save default graphics parameters
+
+##obtain original unscale values for predictors
+
+
+# png("BxR_FF.png", width=2000, height=1500, res=300)
+
+#fig<-layout(matrix(c(1:12), 6,2, byrow=F))
+par(mar=c(3,5,3,2))
+image.plot(x = pr.mat$Porifera, y = pr.mat$algae_richnes , z = psi.matrix,
+           col = mapPalette(100), axes=F,xlab = NA ,ylab = NA, 
+           legend.width=1, axis.args=list(cex.axis=0.8, lwd=0,
+                              line=-0.5), main="Coral recruitment")
+contour(x = pr.mat$Porifera, y = pr.mat$algae_richnes, z = psi.matrix, 
+        add = TRUE, lwd = 1)
+axis(side = 1, tck = -.015, labels = NA)
+axis(side = 2, tck = -.015, labels = NA)
+axis(side = 1, lwd = 0, line = -.6)
+axis(side = 2, lwd = 0, line = -.6, las = 1)
+mtext(side = 1, "Porifera abundance", line = 1.8)
+mtext(side = 2, "Algae richness", line = 2.3)
+
+points(corales$Porifera, corales$algae_richnes, pch=19, cex=0.5, 
+       col="black")
+
+# dev.off()
+
+
+# glm6 <- glm (corales_algunos_sum ~ Porifera + Filamentous.algae + Crustose.algae + 
+#    Sheet.like.algae + Thick.leathery.algae + unbranched.erect.algae,  family = poisson(), data = corales)
+# fit.boot2 <- boot.stepAIC(glm6, data = corales, B = 100) # That's it !
+# fit.boot2
+
+
+
+
+
+```
+
+
+
+# Predicting recruitmentof all corals as a function of porifera  and  algae (just "good" predictors). Taking in to acount the stepwise procedure 
+
+```{r pred2}
+
+
+# algae richness
+corales$algae_richnes2 <- apply(cbind(corales$Filamentous.algae , 
+                                    corales$Crustose.algae , 
+                                    corales$Sheet.like.algae + corales$Thick.leathery.algae ,
+                                    corales$unbranched.erect.algae),1,sum)
+
+
+glm7 <- glm(corales_algunos_sum ~  Porifera * algae_richnes2, family = poisson(), data = corales)
+glm8 <- glm(corales_algunos_sum ~  Porifera * algae_richnes2 + I(algae_richnes)^2, family = poisson(), data = corales)
+
+
+
+summary(glm7)
+
+newdato <- as.data.frame(cbind(Porifera=rep(1:10, each = 10), algae_richnes2=rep(1:10, 10)) )
+predichos <- predict(glm7, newdata = newdato, type = "response")
+
+
+# plot predictions but not as surface
+sjp.glm(glm7, type = "pred", vars = c("Porifera", "algae_richnes2"), show.ci = TRUE)
+sjp.glm(glm7, type = "pred", vars = c("Porifera", "algae_richnes2"), show.ci = TRUE, facet.grid = FALSE)
+
+require(geoR)
+data(elevation)
+
+
+
+grid = expand.grid(list(Porifera = seq(0, 9, 1), algae_richnes2 = seq(0, 9, 1)))
+
+z = predict(glm7, newdata = grid)
+grid$Height = as.numeric(z)
+
+levelplot(Height ~ Porifera*algae_richnes2, data = grid,
+  xlab = "Porifera abundance", ylab = "Algae richness",
+  main = "Coral abundance",
+  col.regions = terrain.colors(100)
+)
+
+
+########################################
+
+
+#### with image for predictors with interaction terms#####
+psi.matrix <- array(NA, dim = c(100, 100)) # Prediction matrix, for every
+
+# combination of values of two interacting predictors
+pr.mat<-data.frame(Porifera=seq(0, 
+                                7, 
+                                length.out=100),
+                   algae_richnes2=seq(0, 7, 
+                            length.out=100))
+
+for(i in 1:100){
+  for(j in 1:100){
+       psi.matrix[i, j]<-predict(glm7, newdata=data.frame(
+          Porifera=pr.mat$Porifera[i],
+         # mean=pr.mat$mean[j]), 
+        #  range=pr.mat$range[j]), 
+          algae_richnes2=pr.mat$algae_richnes2[j]),
+          type="response")
+  }
+}
+
+mapPalette <- colorRampPalette(c("grey", "yellow", "orange", "red"))
+
+
+#plot.par<-par()  #save default graphics parameters
+
+##obtain original unscale values for predictors
+
+
+# png("BxR_FF.png", width=2000, height=1500, res=300)
+
+#fig<-layout(matrix(c(1:12), 6,2, byrow=F))
+par(mar=c(3,5,3,2))
+image.plot(x = pr.mat$Porifera, y = pr.mat$algae_richnes2 , z = psi.matrix,
+           col = mapPalette(100), axes=F,xlab = NA ,ylab = NA, 
+           legend.width=1, axis.args=list(cex.axis=0.8, lwd=0,
+                              line=-0.5), main="Coral abundance")
+contour(x = pr.mat$Porifera, y = pr.mat$algae_richnes2, z = psi.matrix, 
+        add = TRUE, lwd = 1)
+axis(side = 1, tck = -.015, labels = NA)
+axis(side = 2, tck = -.015, labels = NA)
+axis(side = 1, lwd = 0, line = -.6)
+axis(side = 2, lwd = 0, line = -.6, las = 1)
+mtext(side = 1, "Porifera abundance", line = 1.8)
+mtext(side = 2, "Algae richness", line = 2.3)
+
+points(corales$Porifera, corales$algae_richnes2, pch=19, cex=0.5, 
+       col="black")
+
+# dev.off()
+
+
+# glm6 <- glm (corales_algunos_sum ~ Porifera + Filamentous.algae + Crustose.algae + 
+#    Sheet.like.algae + Thick.leathery.algae + unbranched.erect.algae,  family = poisson(), data = corales)
+# fit.boot2 <- boot.stepAIC(glm6, data = corales, B = 100) # That's it !
+# fit.boot2
+
+
+
+
+
+```
+
+En este caso los Porifera dejan de ser significativos y las algas (seleccionadas) son mucho mas importantes en la relacion. Al final el modelo podria ser solo lineal.
+
+
+Con cual nos quedamos????  yo pensaria que el primer modelo es mas bonito en la grafica... pero al final lo importante es la explicacion biologica.
+
+
+Adicionalmente que otro grupo aparte de Porifera podemos probar?  que tal si juntamos algunos corales como Porites y Acropora... tendria sentido???
+
+
+# Predicting recruitmentof for coral abudance as a function of sediment  and  algae (just "good" predictors). Taking in to acount the stepwise procedure 
+
+```{r pred3}
+
+
+# algae richness
+corales$algae_richnes2 <- apply(cbind(corales$Filamentous.algae , 
+                                    corales$Crustose.algae , 
+                                    corales$Sheet.like.algae + corales$Thick.leathery.algae ,
+                                    corales$unbranched.erect.algae),1,sum)
+
+
+glm7 <- glm(corales_algunos_sum ~  Sediment * algae_richnes2, family = poisson(), data = corales)
+glm8 <- glm(corales_algunos_sum ~  Sediment * algae_richnes2 + I(algae_richnes)^2, family = poisson(), data = corales)
+
+
+
+summary(glm7)
+
+newdato <- as.data.frame(cbind(Sediment=rep(0:1, each = 10), algae_richnes2=rep(1:10, 10)) )
+predichos <- predict(glm7, newdata = newdato, type = "response")
+
+
+# plot predictions but not as surface
+# sjp.glm(glm7, type = "pred", vars = c("Sediment", "algae_richnes2"), show.ci = TRUE)
+sjp.glm(glm7, type = "pred", vars = c("Sediment", "algae_richnes2"), show.ci = TRUE, facet.grid = FALSE)
+
+require(geoR)
+data(elevation)
+
+
+
+grid = expand.grid(list(Sediment = rep(c(0, 1), 10), algae_richnes2 = seq(0, 6, 1)))
+
+z = predict(glm7, newdata = grid)
+grid$Height = as.numeric(z)
+
+boxplot(Height ~ Sediment , data=grid,
+  xlab = "Sediment presence", ylab = "Coral abundance",
+  main = "Coral abundance",
+  col.regions = terrain.colors(100)
+)
+
+
+# glm6 <- glm (corales_algunos_sum ~ Porifera + Filamentous.algae + Crustose.algae + 
+#    Sheet.like.algae + Thick.leathery.algae + unbranched.erect.algae,  family = poisson(), data = corales)
+# fit.boot2 <- boot.stepAIC(glm6, data = corales, B = 100) # That's it !
+# fit.boot2
+
+
+
+
+
+```
+
+
+
+# Explore abundance and site using mvabund package
+
+see http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2012.00190.x/full
+
+
+```{r mvabund}
+
+library(mvabund)
+
+
+
+```
+
+
+```{r sesion}
+
+sessionInfo()
+
+
+
+```
+

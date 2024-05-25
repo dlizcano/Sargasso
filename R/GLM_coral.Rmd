@@ -1,0 +1,81 @@
+---
+title: "Corales reclutamiento"
+author: "Diego L. Lizcano"
+date: "26 de enero de 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Coral and recruitment
+
+## Load the data set
+
+```{r read, cache=TRUE, echo=TRUE, message=FALSE}
+library(lme4)
+library(nlme)
+library(arm)
+library(sjPlot)
+
+# read data set
+library(readr)
+corales <- read_delim("C:/Users/diego.lizcano/Box Sync/CodigoR/Nancy2/data/corales2.csv",
+                      ";", escape_double = FALSE, trim_ws = TRUE)
+
+corales$all <- apply(corales[,35:41], 1, sum)
+
+```
+
+## See the lineal trends by locality
+
+```{r graphing, cache=TRUE}
+library(ggplot2)
+
+# Same, but with different colors and add regression lines
+ggplot(corales, aes(x=all, y=Porifera, color=Locality, shape=Locality)) +
+    geom_point() +
+    scale_colour_hue(l=50) + # Use a slightly darker palette than normal
+    geom_smooth(method=glm,   # Add linear regression lines
+                se=TRUE)# , fullrange=TRUE)    # Don't add shaded confidence region
+
+```
+
+
+
+## Explaining Porifera recruitment as traditional GLM
+
+as a piosson procces determined by coral recruitment and site - locality name (factor) 
+
+```{r glm1, echo=TRUE, cache=TRUE}
+
+
+glm1 <- glm (all ~ Site_name ,family = poisson(), data = corales)
+glm2 <- glm (Porifera ~ all + Site_name, family = poisson(), data = corales) # <Poisson log
+glm3 <- glm (Porifera ~ all + Locality + (Locality:all) , data = corales) # <Poisson log
+
+# summary(glm1)
+summary(glm2)
+summary(glm3)
+
+```
+
+# Analizing the trend
+
+Plot odds or incident rate ratios with confidence intervalls as dot plot
+
+```{r, grap1}
+sjp.glm(glm3,  type = "dots")
+sjp.glm(glm3, type = "slope", show.ci = TRUE, facet.grid = FALSE, vars = "all")
+# sjp.glm(glm3, type = "eff")
+# sjp.glm(glm3, type = "pred", vars = "all", show.ci = TRUE)
+
+sjp.glm(glm3, type = "pred", vars = "all",
+        facet.grid = FALSE, show.ci = TRUE, scatter.plot = FALSE,
+        axis.lim = c(0, 4))
+
+
+```
+
+
