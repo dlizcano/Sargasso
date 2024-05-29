@@ -1,5 +1,5 @@
 ---
-title: "Sargasso arribazon"
+title: "*Sargassum* arribazon"
 subtitle: "Some graphs for Nancy"
 date: "`r Sys.Date()`"
 author: 
@@ -19,8 +19,8 @@ format:
     code-block-border-left: "#31BAE9"
 citation: true
 google-scholar: true
+bibliography: grateful-refs.bib
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -39,10 +39,11 @@ knitr::opts_chunk$set(
   cache=TRUE)
 ```
 
-
 ## Question
 
-Which is the relationship distance to coast line and DO?
+Which is the relationship between DO (oxigen) and distance to coast line on Sargassum plumes? 
+
+![Sargassum plume](https://dlizcano.github.io/Sargasso/img/drone2.jpg){.lightbox}
 
 ## Set up analysis
 
@@ -52,27 +53,28 @@ Load libraries and set some options.
 #| warning: false
 #| message: false
 
-library(readxl)
-library(gt)
-library(lubridate)
-library(stringr)
-library(readxl)
-library(sf)
+library(readxl) # Read Excel Files # Read Excel Files
+library(gt) # Easily Create Presentation-Ready Display Tables
+library(lubridate) # Make Dealing with Dates a Little Easier
+library(stringr) # Simple, Consistent Wrappers for Common String Operations
+library(readxl) # Read Excel Files # Read Excel Files
+library(sf) # Simple Features for R
 # library(MuMIn) # multimodel inference
 library(visreg) # see trend
 library(MASS) # stepAIC
 # library(terra)
 library(lme4) # mix model
-library(sjPlot)
-library(see)
-library(performance)
-library(mapview)
-library(corrplot)
-library(DT)
+library(sjPlot) # Data Visualization for Statistics in Social Science
+library(see) # Model Visualisation Toolbox for 'easystats' and 'ggplot2'
+library(performance) # Assessment of Regression Models Performance
+library(mapview) # Interactive Viewing of Spatial Data in R
+library(corrplot) # Visualization of a Correlation Matrix
+library(DT) # A Wrapper of the JavaScript Library 'DataTables'
 library(measurements) # transform DMS to lat lon
-library(ggeffects)
+library(ggeffects) # Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
+library(grateful)
 
-library(tidyverse)
+library(tidyverse) # Easily Install and Load the 'Tidyverse'
 
 
 
@@ -81,27 +83,35 @@ options(max.print=99999)
 options(stringsAsFactors=F)
 ```
 
-## Load and Map the data
+## Load data 
+
+No  Map, the data has not latitude longitude
 
 ```{r}
-sargasso <- read_excel("C:/CodigoR/Nancy2/data/parametros_fisicoquimicos2023.xlsx", 
+sargasso <- read_excel("C:/CodigoR/Nancy2/data/PARAEMETROS_FQ2.xlsx", 
     sheet = "alta_baja")
 
 
-sargasso$lat <- as.numeric(conv_unit(sargasso$Lattitude, from = "deg_min_sec", to = "dec_deg"))
-sargasso$lon <- conv_unit(sargasso$Longitude , from = "deg_min_sec", to = "dec_deg") 
-sargasso$lon <- as.numeric(sargasso$lon)*(-1)
+# sargasso$lat <- as.numeric(conv_unit(sargasso$Lattitude, from = "deg_min_sec", to = "dec_deg"))
+# sargasso$lon <- conv_unit(sargasso$Longitude , from = "deg_min_sec", to = "dec_deg") 
+# sargasso$lon <- as.numeric(sargasso$lon)*(-1)
 
+######################
+# Make map #
+######################
 # convierte covs a puntos terra
-puntos <- vect(sargasso, geom=c("lon", "lat"), crs="EPSG:4326")
+# puntos <- vect(sargasso, geom=c("lon", "lat"), crs="EPSG:4326")
 # convierte a sf
-sargasso_sf <- sf::st_as_sf(puntos)
 
-mapview(sargasso_sf, zcol="DO_mgL")
+# sargasso_sf <- sf::st_as_sf(sargasso, 
+#                             coords = c("lon", "lat"),
+#                             crs="EPSG:4326")
+# 
+# mapview(sargasso_sf, zcol="DO_mgL")
 
 ```
 
-## Relation DO[mgL] and distance to coastline, pluma, temporada, and locality
+## Relation DO\[mgL\] and distance to coastline, pluma, temporada, and locality
 
 ### ggplot graph (Loess method)
 
@@ -110,6 +120,7 @@ mapview(sargasso_sf, zcol="DO_mgL")
 ggplot(sargasso, aes(x=Distance_coast, y=DO_mgL, color=Pluma)) + 
   geom_point()+
   geom_smooth() + # method=lm
+  scale_color_manual (values=c("#33ccf3", "#f35a33" )) +
   facet_grid(Temporada ~ Locality, scales = "free")
 
 # # Marginal density plot of x (top panel)
@@ -122,20 +133,18 @@ ggplot(sargasso, aes(x=Distance_coast, y=DO_mgL, color=Pluma)) +
 
 ```
 
-
 ### Regresion models
 
 #### A simple model
 
 $$
-DO_mgL \sim DistanceCoast + Pluma + Temporada
+DO_mgL \sim DistanceCoast + Pluma + Temporada + Locality
 $$
 
 ```{r}
-lm1 <- lm(DO_mgL ~ Distance_coast + Pluma + Temporada, data = sargasso)
+lm1 <- lm(DO_mgL ~ Distance_coast + Pluma + Temporada + Locality, data = sargasso)
 
-
-dat <- predict_response(lm1, terms = c("Distance_coast", "Pluma", "Temporada"))
+dat <- predict_response(lm1, terms = c("Distance_coast", "Pluma", "Temporada", "Locality"))
 plot(dat, facets = TRUE)
 
 out1 <- check_model(lm1)
@@ -149,28 +158,32 @@ tab_model(summary(lm1))
 
 ```
 
-
 #### A model with 2 interaction between distance and temporada
 
 $$
-DO_mgL \sim DistanceCoast * Temporada + Pluma
+DO_mgL \sim DistanceCoast * Temporada + Pluma + Locality
 $$
 
 ```{r}
-lm2 <- lm(formula = DO_mgL ~ Distance_coast * Temporada + Pluma ,   data = sargasso)
+lm2 <- lm(formula = DO_mgL ~ Distance_coast * Temporada +  Pluma + Locality,   data = sargasso)
 
-dat2 <- predict_response(lm2, terms = c("Distance_coast", "Pluma", "Temporada"))
+dat2 <- predict_response(lm2, terms = c("Distance_coast", "Pluma", "Temporada", "Locality"))
 plot(dat2, facets = TRUE)
+
+plot_model(lm2, type = "est")
+# plot_model(lm2, type = "re") # in case random effect
+plot_model(lm2, type = "pred")
+
 
 out2 <- check_model(lm2)
 plot(out2)
 
 tab_model(summary(lm2))
 
-```
- 
- complex to interpret 
 
+```
+
+complex to interpret
 
 #### Three-Way-Interaction
 
@@ -187,6 +200,85 @@ out3 <- check_model(lm3)
 plot(out3)
 
 tab_model(summary(lm3))
+
+
+```
+
+#### Mix effect model. Random effect in Locality
+
+$$
+DO_mgL \sim DistanceCoast + Temporada + Pluma + (1|Locality)
+$$
+
+```{r}
+lm4 <- lmer(formula = DO_mgL ~ Distance_coast + Temporada + Pluma + (1|Locality),   data = sargasso)
+
+
+dat4 <- predict_response(lm4, terms = c("Distance_coast", "Pluma", "Temporada", "Locality"))
+plot(dat4, facets = TRUE)
+
+plot_model(lm4, type = "est")
+plot_model(lm4, type = "re")
+plot_model(lm4, type = "pred")
+
+
+out4 <- check_model(lm4)#, panel=FALSE)
+plot(out4)
+
+tab_model((lm4))
+```
+
+
+#### Mix effect model. Interaction and random effect in Locality
+
+$$
+DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
+$$
+
+```{r}
+lm5 <- lmer(formula = DO_mgL ~ Distance_coast * Temporada + Pluma + (1|Locality),   data = sargasso)
+
+
+dat5 <- predict_response(lm5, terms = c("Distance_coast", "Pluma", "Temporada", "Locality"))
+plot(dat5, facets = TRUE)
+
+
+plot_model(lm5, type = "est")
+plot_model(lm5, type = "re")
+plot_model(lm5, type = "pred")
+
+out5 <- check_model(lm5)
+plot(out5)
+
+tab_model((lm5))
+
+```
+
+
+## Which model can be the best?
+
+Lets compare the model performance
+
+```{r}
+
+result <- compare_performance(lm1, lm2, lm3, lm4, lm5, rank=TRUE)
+
+DT::datatable(result)
+
+plot(result)
+
+
+```
+
+Larger values indicate better model performance. Hence, points closer to the center indicate worse fit indices.
+
+
+## Package Citation
+
+```{r }
+pkgs <- cite_packages(output = "paragraph", out.dir = ".")
+knitr::kable(pkgs)
+# pkgs
 ```
 
 
@@ -195,7 +287,4 @@ tab_model(summary(lm3))
 ```{r sesion, results='markup'}
 sessionInfo()
 ```
-
-
-
 
