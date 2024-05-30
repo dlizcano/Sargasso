@@ -8,7 +8,7 @@
 
 <meta name="author" content="Diego Lizcano">
 <meta name="author" content="Nancy Cabanillas-Terán">
-<meta name="dcterms.date" content="2024-05-29">
+<meta name="dcterms.date" content="2024-05-30">
 
 <title>Sargassum in Chetumal, Mexico - Sargassum arribazon</title>
 <style>
@@ -191,10 +191,10 @@ window.Quarto = {
 <meta name="citation_title" content="*Sargassum* arribazon">
 <meta name="citation_author" content="Diego Lizcano">
 <meta name="citation_author" content="Nancy Cabanillas-Terán">
-<meta name="citation_publication_date" content="2024-05-29">
-<meta name="citation_cover_date" content="2024-05-29">
+<meta name="citation_publication_date" content="2024-05-30">
+<meta name="citation_cover_date" content="2024-05-30">
 <meta name="citation_year" content="2024">
-<meta name="citation_online_date" content="2024-05-29">
+<meta name="citation_online_date" content="2024-05-30">
 <meta name="citation_fulltext_html_url" content="https://dlizcano.github.io/Sargasso/Sargasso.html">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=R: A language and environment for statistical computing;,citation_author=R Core Team;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://www.R-project.org/;">
@@ -282,8 +282,15 @@ window.Quarto = {
   <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
   <li><a href="#relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality" id="toc-relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality" class="nav-link" data-scroll-target="#relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality">Relation DO[mgL] and distance to coastline, pluma, temporada, and locality</a>
   <ul class="collapse">
-  <li><a href="#ggplot-graph-loess-method" id="toc-ggplot-graph-loess-method" class="nav-link" data-scroll-target="#ggplot-graph-loess-method">ggplot graph (Loess method)</a></li>
-  <li><a href="#regresion-models" id="toc-regresion-models" class="nav-link" data-scroll-target="#regresion-models">Regresion models</a></li>
+  <li><a href="#ggplot2-graph-loess-method" id="toc-ggplot2-graph-loess-method" class="nav-link" data-scroll-target="#ggplot2-graph-loess-method">ggplot2 graph (Loess method)</a></li>
+  </ul></li>
+  <li><a href="#regresion-models" id="toc-regresion-models" class="nav-link" data-scroll-target="#regresion-models">Regresion models</a>
+  <ul class="collapse">
+  <li><a href="#a-simple-model-lm1" id="toc-a-simple-model-lm1" class="nav-link" data-scroll-target="#a-simple-model-lm1">A simple model (lm1)</a></li>
+  <li><a href="#a-model-with-2-interaction-between-distance-and-temporada-lm2" id="toc-a-model-with-2-interaction-between-distance-and-temporada-lm2" class="nav-link" data-scroll-target="#a-model-with-2-interaction-between-distance-and-temporada-lm2">A model with 2 interaction between distance and temporada (lm2)</a></li>
+  <li><a href="#three-way-interaction-lm3" id="toc-three-way-interaction-lm3" class="nav-link" data-scroll-target="#three-way-interaction-lm3">Three-Way-Interaction (lm3)</a></li>
+  <li><a href="#mix-effect-model.-random-effect-in-locality-lm4" id="toc-mix-effect-model.-random-effect-in-locality-lm4" class="nav-link" data-scroll-target="#mix-effect-model.-random-effect-in-locality-lm4">Mix effect model. Random effect in Locality (lm4)</a></li>
+  <li><a href="#mix-effect-model.-interaction-and-random-effect-in-locality-lm5" id="toc-mix-effect-model.-interaction-and-random-effect-in-locality-lm5" class="nav-link" data-scroll-target="#mix-effect-model.-interaction-and-random-effect-in-locality-lm5">Mix effect model. Interaction and random effect in Locality (lm5)</a></li>
   </ul></li>
   <li><a href="#which-model-can-be-the-best" id="toc-which-model-can-be-the-best" class="nav-link" data-scroll-target="#which-model-can-be-the-best">Which model can be the best?</a></li>
   <li><a href="#package-citation" id="toc-package-citation" class="nav-link" data-scroll-target="#package-citation">Package Citation</a></li>
@@ -315,7 +322,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 29, 2024</p>
+      <p class="date">May 30, 2024</p>
     </div>
   </div>
   
@@ -380,7 +387,7 @@ window.Quarto = {
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sargasso <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/CodigoR/Nancy2/data/PARAEMETROS_FQ2.xlsx"</span>, </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sargasso <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:/CodigoR/Nancy2/data/PARAEMETROS_FQ5.xlsx"</span>, </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">sheet =</span> <span class="st">"alta_baja"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -405,8 +412,8 @@ window.Quarto = {
 </section>
 <section id="relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality" class="level2">
 <h2 class="anchored" data-anchor-id="relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality">Relation DO[mgL] and distance to coastline, pluma, temporada, and locality</h2>
-<section id="ggplot-graph-loess-method" class="level3">
-<h3 class="anchored" data-anchor-id="ggplot-graph-loess-method">ggplot graph (Loess method)</h3>
+<section id="ggplot2-graph-loess-method" class="level3">
+<h3 class="anchored" data-anchor-id="ggplot2-graph-loess-method">ggplot2 graph (Loess method)</h3>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
@@ -437,20 +444,25 @@ window.Quarto = {
 </details>
 </div>
 </section>
-<section id="regresion-models" class="level3">
-<h3 class="anchored" data-anchor-id="regresion-models">Regresion models</h3>
-<section id="a-simple-model" class="level4">
-<h4 class="anchored" data-anchor-id="a-simple-model">A simple model</h4>
+</section>
+<section id="regresion-models" class="level2">
+<h2 class="anchored" data-anchor-id="regresion-models">Regresion models</h2>
+<section id="a-simple-model-lm1" class="level3">
+<h3 class="anchored" data-anchor-id="a-simple-model-lm1">A simple model (lm1)</h3>
 <p><span class="math display">\[
 DO_mgL \sim DistanceCoast + Pluma + Temporada + Locality
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">+</span> Pluma <span class="sc">+</span> Temporada <span class="sc">+</span> Locality, <span class="at">data =</span> sargasso)</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sargasso<span class="sc">$</span>Temp <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(sargasso<span class="sc">$</span>Temp)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(lm1, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Distance_coast"</span>, <span class="st">"Pluma"</span>, <span class="st">"Temporada"</span>, <span class="st">"Locality"</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat, <span class="at">facets =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">+</span> Pluma <span class="sc">+</span> Temporada <span class="sc">+</span> Locality, <span class="at">data =</span> sargasso)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lm1t &lt;- lm(DO_mgL ~ Distance_coast + Temp + Pluma + Temporada + Locality, data = sargasso)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(lm1, <span class="at">terms =</span> <span class="fu">c</span>( <span class="st">"Distance_coast"</span>, <span class="st">"Pluma"</span>, <span class="st">"Temporada"</span>, <span class="st">"Locality"</span> ))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat, <span class="at">facets =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -483,22 +495,22 @@ DO_mgL \sim DistanceCoast + Pluma + Temporada + Locality
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -3.8845 -1.1919 -0.2524  0.9407  4.4015 </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -4.3958 -0.8859 -0.0941  0.7744  3.8080 </span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                      Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)                         3.5210480  0.1369948  25.702  &lt; 2e-16 ***</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Distance_coast                      0.0018173  0.0002962   6.135 1.44e-09 ***</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Plumasi                            -1.1812931  0.1281522  -9.218  &lt; 2e-16 ***</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TemporadaBaja arribazón de sargazo  4.9000345  0.1333801  36.737  &lt; 2e-16 ***</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LocalityXahuayxol                  -0.8732758  0.1517799  -5.754 1.32e-08 ***</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LocalityXcalak                     -0.9857887  0.1582944  -6.228 8.27e-10 ***</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)                         4.0862815  0.1139887  35.848  &lt; 2e-16 ***</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Distance_coast                      0.0026642  0.0002512  10.606  &lt; 2e-16 ***</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Plumasi                            -1.6802324  0.1094203 -15.356  &lt; 2e-16 ***</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TemporadaBaja arribazón de sargazo  4.1045588  0.1048126  39.161  &lt; 2e-16 ***</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LocalityXahuayxol                  -1.6919933  0.1346895 -12.562  &lt; 2e-16 ***</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LocalityXcalak                     -0.9164167  0.1244600  -7.363 5.08e-13 ***</span></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 1.585 on 684 degrees of freedom</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.6957, Adjusted R-squared:  0.6935 </span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 312.8 on 5 and 684 DF,  p-value: &lt; 2.2e-16</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 1.345 on 697 degrees of freedom</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.7468, Adjusted R-squared:  0.745 </span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 411.2 on 5 and 697 DF,  p-value: &lt; 2.2e-16</span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(<span class="fu">summary</span>(lm1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -523,8 +535,8 @@ DO_mgL \sim DistanceCoast + Pluma + Temporada + Locality
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.52</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.25&nbsp;–&nbsp;3.79</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.86&nbsp;–&nbsp;4.31</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
@@ -535,36 +547,36 @@ DO_mgL \sim DistanceCoast + Pluma + Temporada + Locality
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Pluma [si]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.18</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.43&nbsp;–&nbsp;-0.93</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.90&nbsp;–&nbsp;-1.47</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Temporada [Baja arribazón<br>
 de sargazo]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.90</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.64&nbsp;–&nbsp;5.16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.90&nbsp;–&nbsp;4.31</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Locality [Xahuayxol]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.87</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.17&nbsp;–&nbsp;-0.58</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.96&nbsp;–&nbsp;-1.43</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Locality [Xcalak]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.99</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.30&nbsp;–&nbsp;-0.67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.16&nbsp;–&nbsp;-0.67</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">690</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">703</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.696 / 0.694</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.747 / 0.745</td>
 </tr>
 </tbody>
 </table>
@@ -580,8 +592,8 @@ de sargazo]</td>
 </details>
 </div>
 </section>
-<section id="a-model-with-2-interaction-between-distance-and-temporada" class="level4">
-<h4 class="anchored" data-anchor-id="a-model-with-2-interaction-between-distance-and-temporada">A model with 2 interaction between distance and temporada</h4>
+<section id="a-model-with-2-interaction-between-distance-and-temporada-lm2" class="level3">
+<h3 class="anchored" data-anchor-id="a-model-with-2-interaction-between-distance-and-temporada-lm2">A model with 2 interaction between distance and temporada (lm2)</h3>
 <p><span class="math display">\[
 DO_mgL \sim DistanceCoast * Temporada + Pluma + Locality
 \]</span></p>
@@ -656,8 +668,9 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + Locality
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm2)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm2, <span class="at">panel=</span><span class="cn">FALSE</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out2)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $PP_CHECK</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -666,10 +679,55 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + Locality
 </figure>
 </div>
 </div>
+<pre><code>#&gt; 
+#&gt; $NCV</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-4-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="Sargasso_files/figure-html/unnamed-chunk-4-8.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $HOMOGENEITY</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-4-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="Sargasso_files/figure-html/unnamed-chunk-4-9.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $OUTLIERS</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-4-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="Sargasso_files/figure-html/unnamed-chunk-4-10.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $VIF</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-4-11.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="Sargasso_files/figure-html/unnamed-chunk-4-11.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $QQ</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-4-12.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="Sargasso_files/figure-html/unnamed-chunk-4-12.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(<span class="fu">summary</span>(lm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(<span class="fu">summary</span>(lm2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -693,8 +751,8 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + Locality
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.72</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.42&nbsp;–&nbsp;3.01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.30</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.06&nbsp;–&nbsp;3.53</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
@@ -706,26 +764,26 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + Locality
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Temporada [Baja arribazón<br>
 de sargazo]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5.93</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5.62&nbsp;–&nbsp;6.25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5.20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.95&nbsp;–&nbsp;5.46</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Pluma [si]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.14</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.37&nbsp;–&nbsp;-0.91</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.61</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.81&nbsp;–&nbsp;-1.42</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Locality [Xahuayxol]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.79</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.07&nbsp;–&nbsp;-0.52</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.52</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.76&nbsp;–&nbsp;-1.28</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;">Locality [Xcalak]</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.75</td>
-<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.04&nbsp;–&nbsp;-0.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.61</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.84&nbsp;–&nbsp;-0.39</td>
 <td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
 </tr>
 <tr class="odd">
@@ -738,11 +796,11 @@ de sargazo]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">690</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">703</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
-<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.737 / 0.734</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.794 / 0.792</td>
 </tr>
 </tbody>
 </table>
@@ -753,23 +811,23 @@ de sargazo]</td>
 </div>
 <p>complex to interpret</p>
 </section>
-<section id="three-way-interaction" class="level4">
-<h4 class="anchored" data-anchor-id="three-way-interaction">Three-Way-Interaction</h4>
+<section id="three-way-interaction-lm3" class="level3">
+<h3 class="anchored" data-anchor-id="three-way-interaction-lm3">Three-Way-Interaction (lm3)</h3>
 <p><span class="math display">\[
 DO_mgL \sim DistanceCoast * Temporada * Pluma
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lm3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">*</span> Temporada <span class="sc">*</span> Pluma ,   <span class="at">data =</span> sargasso)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm3, <span class="at">type =</span> <span class="st">"int"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lm3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">*</span> Temporada <span class="sc">*</span> Pluma ,   <span class="at">data =</span> sargasso)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm3, <span class="at">type =</span> <span class="st">"int"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="Sargasso_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="Sargasso_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -778,7 +836,7 @@ DO_mgL \sim DistanceCoast * Temporada * Pluma
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="Sargasso_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="Sargasso_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -787,7 +845,7 @@ DO_mgL \sim DistanceCoast * Temporada * Pluma
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="Sargasso_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="Sargasso_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -796,27 +854,27 @@ DO_mgL \sim DistanceCoast * Temporada * Pluma
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="Sargasso_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="Sargasso_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>out3 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm3)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>out3 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm3)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="Sargasso_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-5-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="Sargasso_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(<span class="fu">summary</span>(lm3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(<span class="fu">summary</span>(lm3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -909,59 +967,59 @@ de sargazo]) × Pluma [si]</td>
 </div>
 </div>
 </section>
-<section id="mix-effect-model.-random-effect-in-locality" class="level4">
-<h4 class="anchored" data-anchor-id="mix-effect-model.-random-effect-in-locality">Mix effect model. Random effect in Locality</h4>
+<section id="mix-effect-model.-random-effect-in-locality-lm4" class="level3">
+<h3 class="anchored" data-anchor-id="mix-effect-model.-random-effect-in-locality-lm4">Mix effect model. Random effect in Locality (lm4)</h3>
 <p><span class="math display">\[
 DO_mgL \sim DistanceCoast + Temporada + Pluma + (1|Locality)
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">+</span> Temporada <span class="sc">+</span> Pluma <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Locality),   <span class="at">data =</span> sargasso)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>dat4 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(lm4, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Distance_coast"</span>, <span class="st">"Pluma"</span>, <span class="st">"Temporada"</span>, <span class="st">"Locality"</span>))</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat4, <span class="at">facets =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">+</span> Temporada <span class="sc">+</span> Pluma <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Locality),   <span class="at">data =</span> sargasso)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>dat4 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(lm4, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Distance_coast"</span>, <span class="st">"Pluma"</span>, <span class="st">"Temporada"</span>, <span class="st">"Locality"</span>))</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat4, <span class="at">facets =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="Sargasso_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="Sargasso_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm4, <span class="at">type =</span> <span class="st">"est"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm4, <span class="at">type =</span> <span class="st">"est"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="Sargasso_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="Sargasso_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm4, <span class="at">type =</span> <span class="st">"re"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm4, <span class="at">type =</span> <span class="st">"re"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="Sargasso_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="Sargasso_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm4, <span class="at">type =</span> <span class="st">"pred"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Distance_coast</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm4, <span class="at">type =</span> <span class="st">"pred"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Distance_coast</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="Sargasso_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="Sargasso_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -970,7 +1028,7 @@ DO_mgL \sim DistanceCoast + Temporada + Pluma + (1|Locality)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="Sargasso_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="Sargasso_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -979,28 +1037,28 @@ DO_mgL \sim DistanceCoast + Temporada + Pluma + (1|Locality)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="Sargasso_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="Sargasso_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>out4 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm4)<span class="co">#, panel=FALSE)</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>out4 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm4)<span class="co">#, panel=FALSE)</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="Sargasso_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-6-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="Sargasso_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>((lm4))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>((lm4))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table style="border-collapse:collapse; border:none;">
@@ -1072,60 +1130,60 @@ DO_mgL \sim DistanceCoast + Temporada + Pluma + (1|Locality)
 </div>
 </div>
 </section>
-<section id="mix-effect-model.-interaction-and-random-effect-in-locality" class="level4">
-<h4 class="anchored" data-anchor-id="mix-effect-model.-interaction-and-random-effect-in-locality">Mix effect model. Interaction and random effect in Locality</h4>
+<section id="mix-effect-model.-interaction-and-random-effect-in-locality-lm5" class="level3">
+<h3 class="anchored" data-anchor-id="mix-effect-model.-interaction-and-random-effect-in-locality-lm5">Mix effect model. Interaction and random effect in Locality (lm5)</h3>
 <p><span class="math display">\[
 DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">*</span> Temporada <span class="sc">+</span> Pluma <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Locality),   <span class="at">data =</span> sargasso)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>dat5 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(lm5, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Distance_coast"</span>, <span class="st">"Pluma"</span>, <span class="st">"Temporada"</span>, <span class="st">"Locality"</span>))</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat5, <span class="at">facets =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> DO_mgL <span class="sc">~</span> Distance_coast <span class="sc">*</span> Temporada <span class="sc">+</span> Pluma <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Locality),   <span class="at">data =</span> sargasso)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>dat5 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(lm5, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Distance_coast"</span>, <span class="st">"Pluma"</span>, <span class="st">"Temporada"</span>, <span class="st">"Locality"</span>))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat5, <span class="at">facets =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="Sargasso_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="Sargasso_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm5, <span class="at">type =</span> <span class="st">"est"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm5, <span class="at">type =</span> <span class="st">"est"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="Sargasso_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30"><img src="Sargasso_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm5, <span class="at">type =</span> <span class="st">"re"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm5, <span class="at">type =</span> <span class="st">"re"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="Sargasso_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-31"><img src="Sargasso_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm5, <span class="at">type =</span> <span class="st">"pred"</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Distance_coast</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(lm5, <span class="at">type =</span> <span class="st">"pred"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $Distance_coast</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="Sargasso_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-32"><img src="Sargasso_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -1134,7 +1192,7 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="Sargasso_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-33"><img src="Sargasso_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -1143,27 +1201,82 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="Sargasso_files/figure-html/unnamed-chunk-7-6.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-6.png" class="lightbox" data-gallery="quarto-lightbox-gallery-34"><img src="Sargasso_files/figure-html/unnamed-chunk-7-6.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>out5 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm5)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>out5 <span class="ot">&lt;-</span> <span class="fu">check_model</span>(lm5,  <span class="at">panel=</span><span class="cn">FALSE</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out5)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $PP_CHECK</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30"><img src="Sargasso_files/figure-html/unnamed-chunk-7-7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-7.png" class="lightbox" data-gallery="quarto-lightbox-gallery-35"><img src="Sargasso_files/figure-html/unnamed-chunk-7-7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $NCV</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-36"><img src="Sargasso_files/figure-html/unnamed-chunk-7-8.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $HOMOGENEITY</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-37"><img src="Sargasso_files/figure-html/unnamed-chunk-7-9.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $OUTLIERS</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-38"><img src="Sargasso_files/figure-html/unnamed-chunk-7-10.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $VIF</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-11.png" class="lightbox" data-gallery="quarto-lightbox-gallery-39"><img src="Sargasso_files/figure-html/unnamed-chunk-7-11.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; $QQ</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-12.png" class="lightbox" data-gallery="quarto-lightbox-gallery-40"><img src="Sargasso_files/figure-html/unnamed-chunk-7-12.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; [[7]]</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-7-13.png" class="lightbox" data-gallery="quarto-lightbox-gallery-41"><img src="Sargasso_files/figure-html/unnamed-chunk-7-13.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>((lm5))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>((lm5))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table style="border-collapse:collapse; border:none;">
@@ -1179,8 +1292,8 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.22</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.65&nbsp;–&nbsp;2.79</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.58</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.69&nbsp;–&nbsp;3.47</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
@@ -1191,14 +1304,14 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Temporada [Baja arribazón<br>de sargazo]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.92</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.61&nbsp;–&nbsp;6.24</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.21</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.95&nbsp;–&nbsp;5.46</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Pluma [si]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.14</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.38&nbsp;–&nbsp;-0.91</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.61</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.81&nbsp;–&nbsp;-1.42</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
@@ -1213,27 +1326,27 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">σ<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">2.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">1.47</td>
 </tr>
 
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>00</sub> <sub>Locality</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.19</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.58</td>
 
 </tr><tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ICC</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.28</td>
 
 </tr><tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">N <sub>Locality</sub></td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">3</td>
 </tr><tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">690</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">703</td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.731 / 0.752</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.728 / 0.805</td>
 </tr>
 
 </tbody></table>
@@ -1242,17 +1355,16 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 </div>
 </section>
 </section>
-</section>
 <section id="which-model-can-be-the-best" class="level2">
 <h2 class="anchored" data-anchor-id="which-model-can-be-the-best">Which model can be the best?</h2>
 <p>Lets compare the model performance</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">compare_performance</span>(lm1, lm2, lm3, lm4, lm5, <span class="at">rank=</span><span class="cn">TRUE</span>)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">compare_performance</span>(lm1, lm2, lm3, lm4, lm5, <span class="at">rank=</span><span class="cn">TRUE</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="datatables html-widget html-fill-item" id="htmlwidget-681820ad962ac3ab9350" style="width:100%;height:auto;"></div>
@@ -1260,13 +1372,13 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Sargasso_files/figure-html/unnamed-chunk-8-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-31"><img src="Sargasso_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
+<p><a href="Sargasso_files/figure-html/unnamed-chunk-8-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-42"><img src="Sargasso_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -1278,8 +1390,8 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">cite_packages</span>(<span class="at">output =</span> <span class="st">"paragraph"</span>, <span class="at">out.dir =</span> <span class="st">"."</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pkgs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">cite_packages</span>(<span class="at">output =</span> <span class="st">"paragraph"</span>, <span class="at">out.dir =</span> <span class="st">"."</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pkgs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -1300,7 +1412,7 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pkgs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pkgs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1309,74 +1421,74 @@ DO_mgL \sim DistanceCoast * Temporada + Pluma + (1|Locality)
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.3.2 (2023-10-31 ucrt)</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: Windows 10 x64 (build 19042)</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] LC_COLLATE=Spanish_Colombia.utf8  LC_CTYPE=Spanish_Colombia.utf8   </span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] LC_MONETARY=Spanish_Colombia.utf8 LC_NUMERIC=C                     </span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] LC_TIME=Spanish_Colombia.utf8    </span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; time zone: America/Bogota</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tzcode source: internal</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
-<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] forcats_1.0.0        dplyr_1.1.4          purrr_1.0.2         </span></span>
-<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] readr_2.1.5          tidyr_1.3.1          tibble_3.2.1        </span></span>
-<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] ggplot2_3.5.1        tidyverse_2.0.0      ggeffects_1.6.0     </span></span>
-<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] measurements_1.5.1   DT_0.32              corrplot_0.92       </span></span>
-<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] mapview_2.11.2       performance_0.11.0.9 see_0.8.4.1         </span></span>
-<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] sjPlot_2.8.16        lme4_1.1-35.3        Matrix_1.6-1.1      </span></span>
-<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] MASS_7.3-60          visreg_2.7.0         sf_1.0-15           </span></span>
-<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] stringr_1.5.1        lubridate_1.9.3      gt_0.10.1           </span></span>
-<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] readxl_1.4.3        </span></span>
-<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] RColorBrewer_1.1-3      rstudioapi_0.16.0       jsonlite_1.8.8         </span></span>
-<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [4] datawizard_0.10.0.4     magrittr_2.0.3          TH.data_1.1-2          </span></span>
-<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [7] estimability_1.5        farver_2.1.1            nloptr_2.0.3           </span></span>
-<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [10] rmarkdown_2.27          vctrs_0.6.5             minqa_1.2.6            </span></span>
-<span id="cb43-36"><a href="#cb43-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [13] effectsize_0.8.8        base64enc_0.1-3         terra_1.7-71           </span></span>
-<span id="cb43-37"><a href="#cb43-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [16] htmltools_0.5.7         haven_2.5.4             raster_3.6-26          </span></span>
-<span id="cb43-38"><a href="#cb43-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [19] cellranger_1.1.0        sjmisc_2.8.10           pracma_2.4.4           </span></span>
-<span id="cb43-39"><a href="#cb43-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [22] KernSmooth_2.23-22      htmlwidgets_1.6.4       sandwich_3.1-0         </span></span>
-<span id="cb43-40"><a href="#cb43-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [25] zoo_1.8-12              emmeans_1.10.1          uuid_1.2-0             </span></span>
-<span id="cb43-41"><a href="#cb43-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [28] lifecycle_1.0.4         iterators_1.0.14        pkgconfig_2.0.3        </span></span>
-<span id="cb43-42"><a href="#cb43-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [31] sjlabelled_1.2.0        R6_2.5.1                fastmap_1.1.1          </span></span>
-<span id="cb43-43"><a href="#cb43-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34] digest_0.6.34           colorspace_2.1-0        patchwork_1.2.0        </span></span>
-<span id="cb43-44"><a href="#cb43-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [37] leafem_0.2.3            crosstalk_1.2.1         labeling_0.4.3         </span></span>
-<span id="cb43-45"><a href="#cb43-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [40] fansi_1.0.6             timechange_0.3.0        mgcv_1.9-0             </span></span>
-<span id="cb43-46"><a href="#cb43-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [43] compiler_4.3.2          proxy_0.4-27            withr_3.0.0            </span></span>
-<span id="cb43-47"><a href="#cb43-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [46] doParallel_1.0.17       brew_1.0-10             DBI_1.2.2              </span></span>
-<span id="cb43-48"><a href="#cb43-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [49] sjstats_0.19.0          leaflet_2.2.1           classInt_0.4-10        </span></span>
-<span id="cb43-49"><a href="#cb43-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [52] caTools_1.18.2          tools_4.3.2             units_0.8-5            </span></span>
-<span id="cb43-50"><a href="#cb43-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [55] qqconf_1.3.2            glue_1.7.0              satellite_1.0.5        </span></span>
-<span id="cb43-51"><a href="#cb43-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [58] nlme_3.1-163            grid_4.3.2              generics_0.1.3         </span></span>
-<span id="cb43-52"><a href="#cb43-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [61] qqplotr_0.0.6           gtable_0.3.4            leaflet.providers_2.0.0</span></span>
-<span id="cb43-53"><a href="#cb43-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [64] tzdb_0.4.0              class_7.3-22            hms_1.1.3              </span></span>
-<span id="cb43-54"><a href="#cb43-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [67] sp_2.1-3                xml2_1.3.6              utf8_1.2.4             </span></span>
-<span id="cb43-55"><a href="#cb43-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [70] ggrepel_0.9.5           foreach_1.5.2           pillar_1.9.0           </span></span>
-<span id="cb43-56"><a href="#cb43-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [73] robustbase_0.99-2       splines_4.3.2           lattice_0.22-5         </span></span>
-<span id="cb43-57"><a href="#cb43-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [76] survival_3.5-7          tidyselect_1.2.1        knitr_1.46             </span></span>
-<span id="cb43-58"><a href="#cb43-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [79] svglite_2.1.3           stats4_4.3.2            xfun_0.44              </span></span>
-<span id="cb43-59"><a href="#cb43-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [82] leafpop_0.1.0           DEoptimR_1.1-3          stringi_1.8.3          </span></span>
-<span id="cb43-60"><a href="#cb43-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [85] yaml_2.3.8              boot_1.3-28.1           evaluate_0.23          </span></span>
-<span id="cb43-61"><a href="#cb43-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [88] codetools_0.2-19        twosamples_2.0.1        cli_3.6.2              </span></span>
-<span id="cb43-62"><a href="#cb43-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [91] xtable_1.8-4            parameters_0.21.7.1     systemfonts_1.0.5      </span></span>
-<span id="cb43-63"><a href="#cb43-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [94] pbmcapply_1.5.1         munsell_0.5.0           jquerylib_0.1.4        </span></span>
-<span id="cb43-64"><a href="#cb43-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [97] Rcpp_1.0.12             coda_0.19-4.1           png_0.1-8              </span></span>
-<span id="cb43-65"><a href="#cb43-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [100] parallel_4.3.2          ellipsis_0.3.2          bayestestR_0.13.2.1    </span></span>
-<span id="cb43-66"><a href="#cb43-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [103] opdisDownsampling_1.0.1 bitops_1.0-7            mvtnorm_1.2-4          </span></span>
-<span id="cb43-67"><a href="#cb43-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [106] scales_1.3.0            e1071_1.7-14            insight_0.19.11.2      </span></span>
-<span id="cb43-68"><a href="#cb43-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [109] rlang_1.1.3             multcomp_1.4-25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.3.2 (2023-10-31 ucrt)</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: Windows 10 x64 (build 19042)</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] LC_COLLATE=Spanish_Colombia.utf8  LC_CTYPE=Spanish_Colombia.utf8   </span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] LC_MONETARY=Spanish_Colombia.utf8 LC_NUMERIC=C                     </span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] LC_TIME=Spanish_Colombia.utf8    </span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; time zone: America/Bogota</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tzcode source: internal</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] forcats_1.0.0        dplyr_1.1.4          purrr_1.0.2         </span></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] readr_2.1.5          tidyr_1.3.1          tibble_3.2.1        </span></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] ggplot2_3.5.1        tidyverse_2.0.0      ggeffects_1.6.0     </span></span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] measurements_1.5.1   DT_0.32              corrplot_0.92       </span></span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] mapview_2.11.2       performance_0.11.0.9 see_0.8.4.1         </span></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] sjPlot_2.8.16        lme4_1.1-35.3        Matrix_1.6-1.1      </span></span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] MASS_7.3-60          visreg_2.7.0         sf_1.0-15           </span></span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] stringr_1.5.1        lubridate_1.9.3      gt_0.10.1           </span></span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] readxl_1.4.3        </span></span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] RColorBrewer_1.1-3      rstudioapi_0.16.0       jsonlite_1.8.8         </span></span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [4] datawizard_0.10.0.4     magrittr_2.0.3          TH.data_1.1-2          </span></span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [7] estimability_1.5        farver_2.1.1            nloptr_2.0.3           </span></span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [10] rmarkdown_2.27          vctrs_0.6.5             minqa_1.2.6            </span></span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [13] effectsize_0.8.8        base64enc_0.1-3         terra_1.7-71           </span></span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [16] htmltools_0.5.7         haven_2.5.4             raster_3.6-26          </span></span>
+<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [19] cellranger_1.1.0        sjmisc_2.8.10           pracma_2.4.4           </span></span>
+<span id="cb54-39"><a href="#cb54-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [22] KernSmooth_2.23-22      htmlwidgets_1.6.4       sandwich_3.1-0         </span></span>
+<span id="cb54-40"><a href="#cb54-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [25] zoo_1.8-12              emmeans_1.10.1          uuid_1.2-0             </span></span>
+<span id="cb54-41"><a href="#cb54-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [28] lifecycle_1.0.4         iterators_1.0.14        pkgconfig_2.0.3        </span></span>
+<span id="cb54-42"><a href="#cb54-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [31] sjlabelled_1.2.0        R6_2.5.1                fastmap_1.1.1          </span></span>
+<span id="cb54-43"><a href="#cb54-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34] digest_0.6.34           colorspace_2.1-0        patchwork_1.2.0        </span></span>
+<span id="cb54-44"><a href="#cb54-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [37] leafem_0.2.3            crosstalk_1.2.1         labeling_0.4.3         </span></span>
+<span id="cb54-45"><a href="#cb54-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [40] fansi_1.0.6             timechange_0.3.0        mgcv_1.9-0             </span></span>
+<span id="cb54-46"><a href="#cb54-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [43] compiler_4.3.2          proxy_0.4-27            withr_3.0.0            </span></span>
+<span id="cb54-47"><a href="#cb54-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [46] doParallel_1.0.17       brew_1.0-10             DBI_1.2.2              </span></span>
+<span id="cb54-48"><a href="#cb54-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [49] sjstats_0.19.0          leaflet_2.2.1           classInt_0.4-10        </span></span>
+<span id="cb54-49"><a href="#cb54-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [52] caTools_1.18.2          tools_4.3.2             units_0.8-5            </span></span>
+<span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [55] qqconf_1.3.2            glue_1.7.0              satellite_1.0.5        </span></span>
+<span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [58] nlme_3.1-163            grid_4.3.2              generics_0.1.3         </span></span>
+<span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [61] qqplotr_0.0.6           gtable_0.3.4            leaflet.providers_2.0.0</span></span>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [64] tzdb_0.4.0              class_7.3-22            hms_1.1.3              </span></span>
+<span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [67] sp_2.1-3                xml2_1.3.6              utf8_1.2.4             </span></span>
+<span id="cb54-55"><a href="#cb54-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [70] ggrepel_0.9.5           foreach_1.5.2           pillar_1.9.0           </span></span>
+<span id="cb54-56"><a href="#cb54-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [73] robustbase_0.99-2       splines_4.3.2           lattice_0.22-5         </span></span>
+<span id="cb54-57"><a href="#cb54-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [76] survival_3.5-7          tidyselect_1.2.1        knitr_1.46             </span></span>
+<span id="cb54-58"><a href="#cb54-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [79] svglite_2.1.3           stats4_4.3.2            xfun_0.44              </span></span>
+<span id="cb54-59"><a href="#cb54-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [82] leafpop_0.1.0           DEoptimR_1.1-3          stringi_1.8.3          </span></span>
+<span id="cb54-60"><a href="#cb54-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [85] yaml_2.3.8              boot_1.3-28.1           evaluate_0.23          </span></span>
+<span id="cb54-61"><a href="#cb54-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [88] codetools_0.2-19        twosamples_2.0.1        cli_3.6.2              </span></span>
+<span id="cb54-62"><a href="#cb54-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [91] xtable_1.8-4            parameters_0.21.7.1     systemfonts_1.0.5      </span></span>
+<span id="cb54-63"><a href="#cb54-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [94] pbmcapply_1.5.1         munsell_0.5.0           jquerylib_0.1.4        </span></span>
+<span id="cb54-64"><a href="#cb54-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [97] Rcpp_1.0.12             coda_0.19-4.1           png_0.1-8              </span></span>
+<span id="cb54-65"><a href="#cb54-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [100] parallel_4.3.2          ellipsis_0.3.2          bayestestR_0.13.2.1    </span></span>
+<span id="cb54-66"><a href="#cb54-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [103] opdisDownsampling_1.0.1 bitops_1.0-7            mvtnorm_1.2-4          </span></span>
+<span id="cb54-67"><a href="#cb54-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [106] scales_1.3.0            e1071_1.7-14            insight_0.19.11.2      </span></span>
+<span id="cb54-68"><a href="#cb54-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [109] rlang_1.1.3             multcomp_1.4-25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
@@ -2019,7 +2131,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false,"openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
