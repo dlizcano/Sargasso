@@ -32,7 +32,7 @@
     "href": "Sargasso.html#relation-domgl-and-distance-to-coastline-pluma-temporada-and-locality",
     "title": "Sargassum arribazon",
     "section": "Relation DO[mgL] and distance to coastline, pluma, temporada, and locality",
-    "text": "Relation DO[mgL] and distance to coastline, pluma, temporada, and locality\n\nggplot2 graph (Loess method)\n\n\nCode\n# Add the regression line Loess method\nggplot(sargasso, aes(x=Distance_coast, y=DO_mgL, color=Pluma)) + \n  geom_point()+\n  geom_smooth() + # method=lm\n  scale_color_manual (values=c(\"#33ccf3\", \"#f35a33\" )) +\n  facet_grid(Temporada ~ Locality, scales = \"free\")\n\n\n\n\n\n\n\n\n\nCode\n\n# # Marginal density plot of x (top panel)\n# xdensity &lt;- ggplot(sargasso, aes(Distance_coast, fill=Pluma)) + \n#   geom_density(alpha=.5) + \n#   scale_fill_manual(values = c('#999999','#E69F00')) + # + \n#   # theme(legend.position = \"none\")\n#    facet_grid(Temporada ~ Locality, scales = \"free\")\n# xdensity"
+    "text": "Relation DO[mgL] and distance to coastline, pluma, temporada, and locality\n\nggplot2 graph (Loess method)\n\n\nCode\n# Add the regression line Loess method\nggplot(sargasso, aes(x=Distance_coast, y=DO_mgL, color=Pluma)) + \n  geom_point()+\n  geom_smooth() + # method=lm\n  scale_color_manual (values=c(\"#33ccf3\", \"#f35a33\" )) + # change color\n  facet_grid(Temporada ~ Locality) #, scales = \"free\") # no free scale\n\n\n\n\n\n\n\n\n\nCode\n\n# # Marginal density plot of x (top panel)\n# xdensity &lt;- ggplot(sargasso, aes(Distance_coast, fill=Pluma)) + \n#   geom_density(alpha=.5) + \n#   scale_fill_manual(values = c('#999999','#E69F00')) + # + \n#   # theme(legend.position = \"none\")\n#    facet_grid(Temporada ~ Locality, scales = \"free\")\n# xdensity"
   },
   {
     "objectID": "Sargasso.html#which-model-can-be-the-best",
@@ -60,7 +60,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Graficas del Sargassum para Nancy."
+    "text": "Graficas del Sargassum para Nancy.\n\n\n\nReuseCC BY-SA 4.0CitationBibTeX citation:@online{lizcano,\n  author = {Lizcano, Diego and Cabanillas-Terán, Nancy},\n  title = {About},\n  url = {https://dlizcano.github.io/Sargasso/about.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nLizcano, Diego, and Nancy Cabanillas-Terán. n.d. “About.”\nhttps://dlizcano.github.io/Sargasso/about.html."
   },
   {
     "objectID": "index.html",
