@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dlizcano.github.io/Sargasso/Sargasso.html</loc>
-    <lastmod>2024-05-31T03:32:45.273Z</lastmod>
+    <lastmod>2024-06-04T10:59:51.975Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dlizcano.github.io/Sargasso/index.html</loc>
+    <lastmod>2024-05-27T16:53:55.555Z</lastmod>
   </url>
   <url>
     <loc>https://dlizcano.github.io/Sargasso/about.html</loc>
     <lastmod>2024-05-31T03:32:51.495Z</lastmod>
   </url>
   <url>
-    <loc>https://dlizcano.github.io/Sargasso/index.html</loc>
-    <lastmod>2024-05-27T16:53:55.555Z</lastmod>
+    <loc>https://dlizcano.github.io/Sargasso/mixmodel.html</loc>
+    <lastmod>2024-06-04T10:02:14.787Z</lastmod>
   </url>
 </urlset>
